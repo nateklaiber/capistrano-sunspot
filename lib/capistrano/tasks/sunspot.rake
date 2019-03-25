@@ -26,7 +26,6 @@ namespace :solr do
           rescue Exception => e
             puts "No pid is running"
           end
-          execute "rm -rf #{current_path}/solr"
         end
       end
      execute "ps -ef | grep solr | grep -v grep | awk '{print $2}' | xargs kill || echo 'no process with name solr found'"
@@ -47,7 +46,7 @@ namespace :solr do
   desc "start & reindex and stop solr and start again  ( for manual use )"
   task :restart do
     on roles(:app), in: :sequence, wait: 3 do
-      %w[stop start reindex].each { |task| invoke "solr:#{stop}" }
+      %w[stop start reindex].each { |task| invoke "solr:#{task}" }
     end
   end
 
